@@ -53,6 +53,12 @@ static coz_counter_t* _call_coz_get_counter(int type, const char* name) {
       // Use memcpy to avoid pedantic GCC complaint about storing function pointer in void*
       memcpy(&fn, &p, sizeof(p));
     }
+    else {
+      // This will ensure that executables that call coz macros will produce the desired behavour
+      fprintf(stderr,"Could not load _coz_get_counter. Will exit(-14)\n");
+      fprintf(stderr,"Use LD_PRELOAD to load libcoz and link the executable against -ldl\n");
+      exit(-14);
+    }
     
     _initialized = 1;
   }
